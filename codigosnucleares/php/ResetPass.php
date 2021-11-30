@@ -48,8 +48,8 @@ if (isset($_POST['resetear_pw']))
         /*      Enviar email al usuario con token    */
         $to = $email;
         $subject = "Resetear la contraseña en sw.ikasten.io";
-        //$msg = "Hola, haz click en este enlace \"https://sw.ikasten.io/~udelrio002/codigosnucleares/php/NewPassword.php?token=" . $token . "\" para resetear la contraseña en nuestra página.";
-        $msg = "Hola, haz click en este enlace \"localhost/sw/codigosnucleares/php/NewPassword.php?token=" . $token . "\" para resetear la contraseña en nuestra página.";
+        $msg = "Hola, haz click en este enlace \"https://sw.ikasten.io/~udelrio002/codigosnucleares/php/NewPassword.php?token=" . $token . "\" para resetear la contraseña en nuestra página.";
+        //$msg = "Hola, haz click en este enlace \"localhost/sw/codigosnucleares/php/NewPassword.php?token=" . $token . "\" para resetear la contraseña en nuestra página.";
         $msg = wordwrap($msg,70);
         $headers = "From: noreply@swikastenio.com";
         mail($to, $subject, $msg, $headers);
