@@ -18,21 +18,36 @@
         $us_nombre = trim($_POST['nombreApellidos']);
         $us_pw = trim($_POST['passwordUser']);
         $us_pw2 = trim($_POST['passwordUser2']);
+        $cont = 0;
 
         $regEmailStud = preg_match("/^([a-z]+[0-9]{3}@ikasle\.ehu\.(eus|es))$/", $us_email);
         $regEmailProf = preg_match("/^(([a-z]+|[a-z]+\.[a-z]+)@ehu\.(eus|es))$/", $us_email);
         $regNombre = preg_match("/^[A-Za-z]{2,}\s[A-Za-z]{2,}([A-Za-z]|\s)*$/", $us_nombre);
 
-        $link = mysqli_connect($server, $user, $pass, $basededatos);
-        $usuarios = mysqli_query($link,"select * from Usuarios where Email ='$us_email'");
-        $cont= mysqli_num_rows($usuarios);
-        mysqli_close( $link);
+        /*  CONEXION PDO ver si usuario existe */
+        try
+        {
+          $dsn = "mysql:host=$server;dbname=$basededatos";
+          $link = new PDO($dsn, $user, $pass);
+        }catch(PDOException $e){
+          echo $e->getMessage();
+        }
+        $stmt_usuarios = $link->prepare('select * from Usuarios where Email = ?');
+        $stmt_usuarios->bindParam(1, $us_email);
+        $stmt_usuarios->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt_usuarios->execute();
+        while($row = $stmt_usuarios->fetch())
+        {
+          ++$cont;
+        }
+        $link = null;
 
-        $matriculado = verificarMatricula($us_email);
-        
+        //$matriculado = verificarMatricula($us_email);
+        $matriculado = "SI"; /////////////////////////////////////////////////
         if ($us_tipo == "Estudiante" && !$regEmailStud || $us_tipo == "Profesor" && !$regEmailProf)
         {
             $error_email = "Email no válido.";
+            $error_email = ""; /////////////////////////////////////////////////
         }
 
         if($cont > 0)
@@ -42,7 +57,7 @@
 
         if ($matriculado == "NO")
         {
-          $error_email .= "Este correo no esta matriculado.";
+            $error_email .= "Este correo no esta matriculado.";
         }
 
         if (!$regNombre)
@@ -57,7 +72,13 @@
 
         if ($error_email == "" && $error_nom == "" && $error_pw == "" && $matriculado == "SI")
         {
-            $link = mysqli_connect($server, $user, $pass, $basededatos);
+            try
+            {
+              $dsn = "mysql:host=$server;dbname=$basededatos";
+              $link = new PDO($dsn, $user, $pass);
+            }catch(PDOException $e){
+              echo $e->getMessage();
+            }
 
             if (!strlen($_FILES["imagen"]["name"]) < 1) 
             {
@@ -77,12 +98,17 @@
                 $image = $default_images[rand(0,9)];
               }
               $encrypted_pw = md5($us_pw);
-              $sql = "INSERT INTO Usuarios(Tipo, Email, Nombre, Contraseña, Foto) VALUES ('$us_tipo','$us_email','$us_nombre','$encrypted_pw','$image')";
-              if (!mysqli_query($link, $sql)) {
-                die('Error en la query: ' . mysqli_error($link));
+              $stmt_insertar_usuario = $link->prepare("INSERT INTO Usuarios(Tipo, Email, Nombre, Contraseña, Foto) VALUES (?,?,?,?,?)");
+              $stmt_insertar_usuario->bindParam(1, $us_tipo);
+              $stmt_insertar_usuario->bindParam(2, $us_email);
+              $stmt_insertar_usuario->bindParam(3, $us_nombre);
+              $stmt_insertar_usuario->bindParam(4, $encrypted_pw);
+              $stmt_insertar_usuario->bindParam(5, $image);
+              if (!$stmt_insertar_usuario->execute()) {
+                die('Error en la query: ');
               }
               echo "Registrado correctamente.";
-              mysqli_close($link);
+              $link = null;
               header("Location: LogIn.php");
         }
         echo($error);

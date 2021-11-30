@@ -12,37 +12,69 @@ include 'IncreaseGlobalCounter.php' ?>
         $error = "";
         $us_email = trim($_POST['emailUser']);
         $us_pw = trim($_POST['passwordUser']);
+        $cont = 0;
 
-        $link = mysqli_connect($server, $user, $pass, $basededatos);
-        $us_pw_limpia = mysqli_real_escape_string($link, $us_pw);
-        $us_email_limpia = mysqli_real_escape_string($link, $us_email);
-        $pw_encrypted = md5($us_pw_limpia);
+        try
+        {
+          $dsn = "mysql:host=$server;dbname=$basededatos";
+          $link = new PDO($dsn, $user, $pass);
+        }catch(PDOException $e){
+          echo $e->getMessage();
+        }
+
+        $pw_encrypted = md5($us_pw);
         
-        $usuarios = mysqli_query($link,"select * from Usuarios where Email ='$us_email_limpia' and Contraseña = '$pw_encrypted'");
-        $usuarioDato = $usuarios->fetch_assoc();
-        $cont= mysqli_num_rows($usuarios);
-        mysqli_close( $link);
+        $stmt_usuarios = $link->prepare('select * from Usuarios where Email = ? and Contraseña = ?');
+        $stmt_usuarios->bindParam(1, $us_email);
+        $stmt_usuarios->bindParam(2, $pw_encrypted);
+        $stmt_usuarios->setFetchMode(PDO::FETCH_OBJ);
+        $stmt_usuarios->execute();
+
+        while($row = $stmt_usuarios->fetch())
+          ++$cont;
 
         if($cont == 0)
-        {
             $error = "Datos incorrectos.";
-            if ($us_pw_limpia != $us_pw || $us_email_limpia != $us_email)
-              $error2 = "";
-        }
+
         else
-          $estado_usuario = $usuarioDato['Estado'];
-       
+        {
+          $stmt_usuarios = $link->prepare('select * from Usuarios where Email = ? and Contraseña = ?');
+          $stmt_usuarios->bindParam(1, $us_email);
+          $stmt_usuarios->bindParam(2, $pw_encrypted);
+          $stmt_usuarios->setFetchMode(PDO::FETCH_OBJ);
+          $stmt_usuarios->execute();
+          while ($row = $stmt_usuarios->fetch())
+          {    
+            $estado_usuario = $row->Estado;
+          }
+        }
+        $link = null;
         if ($error == "")
         {
           if ($estado_usuario == "Activo")
           {
-            $link = mysqli_connect($server, $user, $pass, $basededatos);
-            $tipo_user = mysqli_query($link,"select Tipo from Usuarios where Email ='$us_email_limpia'");
-            $row = mysqli_fetch_row($tipo_user);
-            $type = $row[0];
-            mysqli_close( $link);
+            try
+            {
+              $dsn = "mysql:host=$server;dbname=$basededatos";
+              $link = new PDO($dsn, $user, $pass);
+            }catch(PDOException $e){
+              echo $e->getMessage();
+            }
+            $stmt_tipo = $link->prepare("select * from Usuarios where Email = ?");
+            $stmt_tipo->bindParam(1, $us_email);
+            $stmt_tipo->setFetchMode(PDO::FETCH_ASSOC); 
+            $stmt_tipo->execute();
+
+            while ($row = $stmt_tipo->fetch())
+            {
+              $type = $row['Tipo'];
+              $lafoto = $row['Foto'];
+            }
+            
+            $link = null;
+
             $_SESSION['user'] = $us_email;
-            $_SESSION['foto'] = $usuarioDato["Foto"];
+            $_SESSION['foto'] = $lafoto;
             $_SESSION['rol'] = $type;
             incrementar();
             header("Location: Layout.php");
@@ -69,6 +101,12 @@ input {
   border: 1px solid;
   border-radius: 4px;
 }
+.resetpw
+{
+  position:relative;
+  font-size: 12px;
+  top: 20px;
+}
   </style>
 </head>
 <body>
@@ -94,8 +132,11 @@ input {
       <div>
       <input type="submit" value="Enviar" name="enviar" id="enviar">
     </div>
-      <?php if (isset($error2)) echo '<br/> <img src = ../images/notpass.gif height = 220px width = 400px>';
-            else if (isset($error) && $error == 'Estas Baneado.')
+    <div class = "resetpw">
+    <a href="ResetPass.php"> ¿Olvidaste la Contraseña? </a>
+    </div>
+      <?php
+            if (isset($error) && $error == 'Estas Baneado.')
             echo '<br/><img src = ../images/banned.gif height = 220px width = 400px>';
        ?>
     </form>
