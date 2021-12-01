@@ -16,6 +16,18 @@
     $stmt_remaining_questions->execute();
     while ($row = $stmt_remaining_questions->fetch())
     {
-        echo json_encode(array("pregunta" => $row['Pregunta'], "inc1" => $row['IncAns1'], "inc2" => $row['IncAns2'], "inc3" => $row['IncAns3'], "correcta" => $row['CorrectAns'], "img" => $row['Imagen']));
+        //echo json_encode(array("pregunta" => $row['Pregunta'], "inc1" => $row['IncAns1'], "inc2" => $row['IncAns2'], "inc3" => $row['IncAns3'], "correcta" => $row['CorrectAns'], "img" => $row['Imagen']));
+        $pregunta = $row['Pregunta'];
+        $inc1 = $row['IncAns1'];
+        $inc2 = $row['IncAns2'];
+        $inc3 = $row['IncAns3'];
+        $correcta = $row['CorrectAns'];
+        $img = $row['Imagen'];
+        echo '<label for='.$pregunta.'>'.$pregunta.'</label><br>';
+        echo "<img src=../images/" .$img ." height=80px width=100px><br>";
+        echo '<input type=radio id='.$correcta. ' name=respuesta value="'.$correcta.'">'.$correcta.'<br>';
+        echo '<input type=radio id='.$inc1. ' name=respuesta value="'.$inc1.'">'.$inc1.'<br>';
+        echo '<input type=radio id='.$inc2. ' name=respuesta value="'.$inc2.'">'.$inc2.'<br>';
+        echo '<input type=radio id='.$inc3. ' name=respuesta value="'.$inc3.'">'.$inc3.'<br>';
     }
 ?>

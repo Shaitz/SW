@@ -43,21 +43,6 @@
   <section class="main" id="s1">
   <input type="button" value="Siguiente" name="next" id="next">
 
-  <!-- <div class="container">
-   <table id="userTable">
-      <thead>
-        <tr>
-          <th>Pregunta</th>
-          <th>Respuesta 1</th>
-          <th>Respuesta 2</th>
-          <th>Respuesta 3</th>
-          <th>Imagen</th>
-          <th>Correcta</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-   </table>
-</div>-->
 <div id = "lapregunta"></div>
 <div id = "laimagen"></div>
 <div id = "container"></div>
