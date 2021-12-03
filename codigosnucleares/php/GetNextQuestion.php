@@ -23,6 +23,8 @@
         $inc3 = $row['IncAns3'];
         $correcta = $row['CorrectAns'];
         $img = $row['Imagen'];
+        $numero = $row['Numero'];
+        echo '<label id = "pregunta_id">'.$numero.'. </label>';
         echo '<label for='.$pregunta.'>'.$pregunta.'</label><br>';
         echo "<img src=../images/" .$img ." height=80px width=100px><br>";
         echo '<input type=radio id='.$correcta. ' name=respuesta value="'.$correcta.'">'.$correcta.'<br>';

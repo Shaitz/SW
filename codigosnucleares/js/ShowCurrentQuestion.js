@@ -43,11 +43,19 @@ $(document).ready(function()
     {
         $('#larespuesta').empty();
         var answer = $('input[name="respuesta"]:checked').val();
-        alert(answer);
-        if (answer)
-        {
-            $('#larespuesta').append(`<label for="${answer}">Tu respuesta: ${answer}</label>`);
-        }
+        var questionId = $('#pregunta_id').text();
+        $.ajax
+        ({
+            url: '../php/VerifyQuestion.php?id='+questionId+'&pregunta='+answer,
+            type: 'POST',
+            dataType: "html",
+            success:function(datos)
+            {
+                var data = jQuery.parseJSON(datos);
+                $('#larespuesta').append(`<label for="${data.respuesta}">Tu respuesta: ${data.respuesta}</label>`);
+            },
+            cache : false,
+        });
     });
     
 });
