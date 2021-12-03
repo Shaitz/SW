@@ -44,12 +44,21 @@
   <input type="button" value="Siguiente" name="next" id="next">
 
 <div id = "lapregunta"></div>
+  <label id = "pregunta_id"> 0 </label>
+  <label id = "pregunta_sentencia"> Pregunta </label><br>
 <div id = "laimagen"></div>
+  <img id = "image" src=../images/test height=80px width=100px><br>
 <div id = "container"></div>
+  <input type=radio id="resp1" name=respuesta value="1"><label id = "respLabel1">1</label><br>
+  <input type=radio id="resp2" name=respuesta value="2"><label id = "respLabel2">2</label><br>
+  <input type=radio id="resp3" name=respuesta value="3"><label id = "respLabel3">3</label><br>
+  <input type=radio id="resp4" name=respuesta value="4"><label id = "respLabel4">4</label><br>
 <div>
   <input type="button" value="Comprobar" name="verify" id="verify">
 </div>
-<div id = "larespuesta"></div>
+<div id = "larespuesta">
+  <label id = "siono">Tu respuesta: </label>
+</div>
 
   </section>
   <?php include '../html/Footer.html' ?>

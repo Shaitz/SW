@@ -2,57 +2,53 @@ function isEmpty( elem )
 {
     return !$.trim(elem.html())
 }
+function mostrarPregunta()
+{
+    $.ajax
+    ({
+        url: '../php/GetNextQuestion.php',
+        type: 'GET',
+        dataType: "json",
+        success:function(datos)
+        {
+            $('#pregunta_id').text(datos.numero);
+            $('#pregunta_sentencia').text(datos.pregunta);
+            $('#image').attr("src", "../images/"+datos.imagen);
+
+            $('#resp1').val(datos.resp1);
+            $('#respLabel1').text(datos.resp1);
+
+            $('#resp2').val(datos.resp2);
+            $('#respLabel2').text(datos.resp2);
+
+            $('#resp3').val(datos.resp3);
+            $('#respLabel3').text(datos.resp3);
+
+            $('#resp4').val(datos.resp4);
+            $('#respLabel4').text(datos.resp4);
+        },
+        cache : false,
+    });
+}
 $(document).ready(function()
 {
+    mostrarPregunta();
     $("#next").click(function()
     {
-        $('#lapregunta').empty();
-        $('#container').empty();
-        $('#laimagen').empty();
-        $('#larespuesta').empty();
-        $.ajax
-        ({
-            url: '../php/GetNextQuestion.php',
-            type: 'GET',
-            dataType: "html",
-            success:function(datos)
-            {
-                /*var pregunta = datos.pregunta;
-                var inc1 = datos.inc1;
-                var inc2 = datos.inc2;
-                var inc3 = datos.inc3;
-                var img = datos.img;
-                var correcta = datos.correcta;
-                
-                var radios = [inc1,inc2,inc3];
-                $('#lapregunta').append(`<label for="${pregunta}">${pregunta}</label>`);
-                $('#laimagen').prepend("<img src=../images/" +img +" height=80px width=100px>");
-                for (var value of radios) 
-                {
-                    $('#container')
-                    .append(`<input type="radio" id="${value}" name="respuesta" value="${value}">`)
-                    .append(`<label for="${value}">${value}</label>`)
-                    .append(`<br>`);
-                }*/
-                $('#container').append(datos);
-            },
-            cache : false,
-        });
+        mostrarPregunta();
     });
     $("#verify").click(function()
     {
-        $('#larespuesta').empty();
         var answer = $('input[name="respuesta"]:checked').val();
         var questionId = $('#pregunta_id').text();
         $.ajax
         ({
             url: '../php/VerifyQuestion.php?id='+questionId+'&pregunta='+answer,
             type: 'POST',
-            dataType: "html",
+            dataType: "json",
             success:function(datos)
             {
-                var data = jQuery.parseJSON(datos);
-                $('#larespuesta').append(`<label for="${data.respuesta}">Tu respuesta: ${data.respuesta}</label>`);
+                $('#siono').text("Tu respuesta: "+datos.respuesta);
             },
             cache : false,
         });
