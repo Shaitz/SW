@@ -89,6 +89,8 @@ include 'IncreaseGlobalCounter.php' ?>
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="384084108129-67vpbf4cl7j7e4g7a4a9em6f399p9srb.apps.googleusercontent.com">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <?php include '../html/Head.html'?>
   <style>
@@ -140,6 +142,7 @@ input {
             echo '<br/><img src = ../images/banned.gif height = 220px width = 400px>';
        ?>
     </form>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
       
     </div>
   </section>
