@@ -21,7 +21,7 @@
         if ($puntuacion < $_SESSION['puntuacion'])
         {
             $stmt_puntuar = $link->prepare("update Usuarios set PuntuacionMax = ? where Email = ?");
-            $stmt_puntuar->bindParam(1, $puntuacion);
+            $stmt_puntuar->bindParam(1, $_SESSION['puntuacion']);
             $stmt_puntuar->bindParam(2, $_SESSION['user']);
             $stmt_puntuar->setFetchMode(PDO::FETCH_ASSOC); 
             $stmt_puntuar->execute();
