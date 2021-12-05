@@ -7,7 +7,12 @@ if (isset($_SESSION['user']) && $_SESSION['rol'] == 'Admin')
     header("Location: Layout.php");
 
 if (isset($_SESSION['preguntas_restantes']) && empty($_SESSION['preguntas_restantes']))
+{
     unset($_SESSION['tema_preguntas']);
+    unset($_SESSION['puntuacion']);
+    unset($_SESSION['aciertos']);
+    unset($_SESSION['fallos']);
+}
     
 if (isset($_SESSION['tema_preguntas']))
     header("Location: AnswerQuestions.php?tema=" . $_SESSION['tema_preguntas']);

@@ -11,8 +11,11 @@ function mostrarPregunta()
         dataType: "json",
         success:function(datos)
         {
-            $('#pregunta_id').text(datos.numero);
+            $('#pregunta_id').text(datos.numero + ". ");
             $('#pregunta_sentencia').text(datos.pregunta);
+            $('#likes').text(datos.likes);
+            $('#dislikes').text(datos.dislikes);
+
             $('#image').attr("src", "../images/"+datos.imagen);
 
             $('#resp1').val(datos.resp1);
@@ -35,6 +38,33 @@ $(document).ready(function()
     mostrarPregunta();
     $("#next").click(function()
     {
+        $.ajax
+        ({
+            url: '../php/GameFinished.php',
+            type: 'GET',
+            dataType: "json",
+            success:function(datos)
+            {
+                if (datos != 0)
+                {
+                    var puntuacion = datos.puntuacion;
+                    var aciertos = datos.aciertos;
+                    var fallos = datos.fallos;
+
+                    $('#fin').text("FIN DE LA SESIÓN");
+                    $('#puntuacion').text("Tu puntuación: " + puntuacion);
+                    $('#aciertos').text("Aciertos: " + aciertos);
+                    $('#fallos').text("Fallos: " + fallos);
+                    $('#next').prop('disabled', true);
+                }
+            },
+            cache : false,
+        });
+        $('#verify').prop('disabled', false);
+        $('#like').prop('disabled', false);
+        $('#dislike').prop('disabled', false);
+        $('#correcta').text("");
+        $('#incorrecta').text("");
         mostrarPregunta();
     });
     $("#verify").click(function()
@@ -48,7 +78,44 @@ $(document).ready(function()
             dataType: "json",
             success:function(datos)
             {
-                $('#siono').text("Tu respuesta: "+datos.respuesta);
+                $('#correcta').text("Respuesta Correcta: "+datos.respuestaC);
+                $('#incorrecta').text("Tu Respuesta: "+datos.tuRespuesta);
+            },
+            cache : false,
+        });
+        $('#verify').prop('disabled', true);
+    });
+    $('#like').click(function()
+    {
+        $.ajax
+        ({
+            url: '../php/VoteQuestion.php?ans=like',
+            type: 'post',
+            dataType: "json",
+            success:function(datos)
+            {
+                var likes = datos.likes;
+                $('#likes').text(likes);
+                $('#like').prop('disabled', true);
+                $('#dislike').prop('disabled', true);
+            },
+            cache : false,
+        });
+    });
+    /* suma 1 dislike a la pregunta */
+    $('#dislike').click(function()
+    {
+        $.ajax
+        ({
+            url: '../php/VoteQuestion.php?ans=dislike',
+            type: 'post',
+            dataType: "json",
+            success:function(datos)
+            {
+                var dislikes = datos.dislikes;
+                $('#dislikes').text(dislikes);
+                $('#like').prop('disabled', true);
+                $('#dislike').prop('disabled', true);
             },
             cache : false,
         });
