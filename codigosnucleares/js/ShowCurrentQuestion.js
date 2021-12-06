@@ -56,6 +56,7 @@ $(document).ready(function()
                     $('#aciertos').text("Aciertos: " + aciertos);
                     $('#fallos').text("Fallos: " + fallos);
                     $('#next').prop('disabled', true);
+                    $('#verify').prop('disabled', true);
                 }
             },
             cache : false,

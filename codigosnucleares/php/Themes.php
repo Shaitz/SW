@@ -13,7 +13,7 @@
     echo '<table border=1 style="border:3px solid black;margin-left:auto;margin-right:auto;"> <tr> <th> Tema </th> </tr>';
     while ($row = $stmt_themes->fetch())
     {
-        echo '<tr><td>' . "<a href=AnswerQuestions.php?tema=" . $row['Tema'] . ">". $row['Tema'] . "</a>" . '</td></tr>';
+        echo '<tr><td>' . "<a href=AnswerQuestions.php?tema=" . str_replace(" ", "%20" ,$row['Tema']) . ">". $row['Tema'] . "</a>" . '</td></tr>';
     }
     echo '</table>';
     $link = null;
