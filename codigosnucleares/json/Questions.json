@@ -203,6 +203,40 @@
                     "porrazo"
                 ]
             }
+        },
+        {
+            "subject": "gdfsdgfdsfgdgf",
+            "author": "prueba019@ikasle.ehu.eus",
+            "itemBody": {
+                "p": "gdfsdgfdsfgdgf"
+            },
+            "correctResponse": {
+                "value": "gdfsdgfdsfgdgf"
+            },
+            "incorrectResponses": {
+                "value": [
+                    "gdfsdgfdsfgdgf",
+                    "gdfsdgfdsfgdgf",
+                    "gdfsdgfdsfgdgf"
+                ]
+            }
+        },
+        {
+            "subject": "gnomo",
+            "author": "prueba019@ikasle.ehu.eus",
+            "itemBody": {
+                "p": "a ber si sale foto"
+            },
+            "correctResponse": {
+                "value": "si sale"
+            },
+            "incorrectResponses": {
+                "value": [
+                    "no",
+                    "babarruna",
+                    "pechuga"
+                ]
+            }
         }
     ]
 }

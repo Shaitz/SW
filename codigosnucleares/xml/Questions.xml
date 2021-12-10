@@ -162,4 +162,30 @@
       <response>porrazo</response>
     </incorrectResponses>
   </assessmentItem>
+  <assessmentItem subject="gdfsdgfdsfgdgf" author="prueba019@ikasle.ehu.eus">
+    <itemBody>
+      <p>gdfsdgfdsfgdgf</p>
+    </itemBody>
+    <correctResponse>
+      <response>gdfsdgfdsfgdgf</response>
+    </correctResponse>
+    <incorrectResponses>
+      <response>gdfsdgfdsfgdgf</response>
+      <response>gdfsdgfdsfgdgf</response>
+      <response>gdfsdgfdsfgdgf</response>
+    </incorrectResponses>
+  </assessmentItem>
+  <assessmentItem subject="gnomo" author="prueba019@ikasle.ehu.eus">
+    <itemBody>
+      <p>a ber si sale foto</p>
+    </itemBody>
+    <correctResponse>
+      <response>si sale</response>
+    </correctResponse>
+    <incorrectResponses>
+      <response>no</response>
+      <response>babarruna</response>
+      <response>pechuga</response>
+    </incorrectResponses>
+  </assessmentItem>
 </assessmentItems>
