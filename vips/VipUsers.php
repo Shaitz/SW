@@ -25,7 +25,7 @@ switch ($method)
 		{
             $datos = "";
             $id = $_GET['id'];
-            $sql = "SELECT * FROM vips WHERE email='$id'";
+            $sql = "SELECT * FROM vips WHERE Email='$id'";
             $data=Database::EjecutarConsulta($cnx, $sql);
 
             if (isset($data[0]))
@@ -41,10 +41,10 @@ switch ($method)
 		}
         if (isset($_GET['ranking']) && !isset($_GET['id']))
         {
-            $sql = "SELECT * FROM vips, Usuarios WHERE vips.email = Usuarios.Email;";
+            $sql = "SELECT Email FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
             $data = Database::EjecutarConsulta($cnx, $sql);
 
-            echo $data;
+            echo json_encode(array('Usuario' => $data));
 			break;
         }
 		else
@@ -69,7 +69,7 @@ switch ($method)
             break;
         }*/
 
-        $sql = "INSERT INTO vips (email) VALUES ('$email');";
+        $sql = "INSERT INTO vips (Email) VALUES ('$email');";
         $num = Database::EjecutarNoConsulta($cnx, $sql);
 
 		if ($num==0)
@@ -80,7 +80,7 @@ switch ($method)
 
     case 'DELETE':
         $email = $_REQUEST['id'];
-        $sql = "DELETE FROM vips WHERE email = '$email';";
+        $sql = "DELETE FROM vips WHERE Email = '$email';";
         $result = Database::EjecutarNoConsulta($cnx, $sql);	
 
         if ($result == 0)
