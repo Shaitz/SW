@@ -27,6 +27,7 @@
       {
           $preguntas_restantes[] = $row['Numero'];
       }
+      shuffle($preguntas_restantes);
       $_SESSION['preguntas_restantes'] = $preguntas_restantes;
   }
 ?>

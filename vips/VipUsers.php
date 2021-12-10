@@ -21,7 +21,7 @@ $cnx = Database::Conectar();
 switch ($method) 
 {
     case 'GET': 
-		if(isset($_GET['id']))
+		if(isset($_GET['id']) && !isset($_GET['ranking']))
 		{
             $datos = "";
             $id = $_GET['id'];
@@ -39,6 +39,7 @@ switch ($method)
                 break;
             }
 		}
+        if (isset($_GET['ranking']))
 		else
 		{
 			$sql = "SELECT * FROM vips;";
