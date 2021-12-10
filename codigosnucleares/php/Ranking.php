@@ -1,8 +1,8 @@
 <?php
 
 $curl = curl_init();
-$url = "http://localhost/SW/vips/vipusers/ranking";
-//$url = "https://sw.ikasten.io/~udelrio002/vips/vipusers/";
+//$url = "http://localhost/SW/vips/vipusers/ranking";
+$url = "https://sw.ikasten.io/~udelrio002/vips/vipusers/ranking";
 curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 $str = curl_exec($curl);
