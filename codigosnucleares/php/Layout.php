@@ -12,6 +12,7 @@
     <div>
 
     <h1 style="font-size:300%;font-family:courier;background-color:lightblue;">Quiz: El juego de las preguntas</h1><br>
+    <div id = "ranking"></div>
       
     </div>
   </section>
