@@ -21,46 +21,49 @@ $cnx = Database::Conectar();
 switch ($method) 
 {
     case 'GET': 
-		if(isset($_GET['id']) && !isset($_GET['ranking']))
+		if(isset($_GET['id']))
 		{
             $datos = "";
             $id = $_GET['id'];
-            $sql = "SELECT * FROM vips WHERE Email='$id'";
-            $data=Database::EjecutarConsulta($cnx, $sql);
-
-            if (isset($data[0]))
+            if ($id != "ranking")
             {
-                echo "<b>ENHORABUENA ".$id." ES VIP</b><br><img src=../images/ok.gif height = 220px width = 400px>";
+                $sql = "SELECT * FROM vips WHERE Email='$id'";
+                $data=Database::EjecutarConsulta($cnx, $sql);
+
+                if (isset($data[0]))
+                {
+                    echo "<b>ENHORABUENA ".$id." ES VIP</b><br><img src=../images/ok.gif height = 220px width = 400px>";
+                    break;
+                }
+                else 
+                {
+                    echo "<b>LO SIENTO ".$id." NO ES VIP</b><br><img src=../images/wrong.gif height = 220px width = 400px>";
+                    break;
+                }
+            }
+            else
+            {
+                $sql = "SELECT Usuarios.Email, Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
+                $data = Database::EjecutarConsulta($cnx, $sql);
+                $sql = "SELECT Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
+                $data2 = Database::EjecutarConsulta($cnx, $sql);
+
+                $usuarios_desordenados = explode(" ", $data);
+                $puntuacion_desordenado = explode(" ", $data2);
+                
+                array_multisort($puntuacion_desordenado, SORT_DESC, $usuarios_desordenados);
+                if (count($puntuacion_desordenado, COUNT_RECURSIVE) >= 10)
+                {
+                    $puntuacion_desordenado = array_slice($puntuacion_desordenado, 0, 10);
+                    $usuarios_desordenados = array_slice($usuarios_desordenados,0,10);
+                }
+                $usuarios_ordenados = implode(" ", $usuarios_desordenados);
+                $puntuacion_ordenado = implode(" ", $puntuacion_desordenado);
+                
+                echo json_encode(array('Usuarios' => $usuarios_ordenados, 'Puntos' => $puntuacion_ordenado));
                 break;
             }
-            else 
-            {
-                echo "<b>LO SIENTO ".$id." NO ES VIP</b><br><img src=../images/wrong.gif height = 220px width = 400px>";
-                break;
-            }
-		}
-        if (isset($_GET['ranking']) && !isset($_GET['id']))
-        {
-            $sql = "SELECT Usuarios.Email, Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
-            $data = Database::EjecutarConsulta($cnx, $sql);
-            $sql = "SELECT Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
-            $data2 = Database::EjecutarConsulta($cnx, $sql);
-
-            $usuarios_desordenados = explode(" ", $data);
-            $puntuacion_desordenado = explode(" ", $data2);
-            
-            array_multisort($puntuacion_desordenado, SORT_DESC, $usuarios_desordenados);
-            if (count($puntuacion_desordenado, COUNT_RECURSIVE) >= 10)
-            {
-                $puntuacion_desordenado = array_slice($puntuacion_desordenado, 0, 10);
-                $usuarios_desordenados = array_slice($usuarios_desordenados,0,10);
-            }
-            $usuarios_ordenados = implode(" ", $usuarios_desordenados);
-            $puntuacion_ordenado = implode(" ", $puntuacion_desordenado);
-            
-            echo json_encode(array('Usuarios' => $usuarios_ordenados, 'Puntos' => $puntuacion_ordenado));
-			break;
-        }
+		}  
 		else
 		{
 			$sql = "SELECT * FROM vips;";
