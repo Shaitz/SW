@@ -85,6 +85,8 @@ include 'IncreaseGlobalCounter.php' ?>
           }
         }
     }
+    else if (isset($_POST['logSocial']))
+      header("Location: redirect.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -108,6 +110,16 @@ input {
   position:relative;
   font-size: 12px;
   top: 20px;
+}
+.gmail
+{
+    background: url(../images/gmail.png);
+    width:200px; 
+    height:40px; 
+    border: 0;
+    background-size: 100%;
+    position:relative;
+    top: 30px;
 }
   </style>
 </head>
@@ -137,12 +149,12 @@ input {
     <div class = "resetpw">
     <a href="ResetPass.php"> ¿Olvidaste la Contraseña? </a>
     </div>
+    <input type=submit name="logSocial" value="" class = "gmail">
       <?php
             if (isset($error) && $error == 'Estas Baneado.')
             echo '<br/><img src = ../images/banned.gif height = 220px width = 400px>';
        ?>
     </form>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
       
     </div>
   </section>

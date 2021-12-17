@@ -1,4 +1,4 @@
 RewriteEngine on 
 RewriteRule vipusers/((?!ranking).+) VipUsers.php?id=$1
-RewriteRule vipusers/(ranking) VipUsers.php?ranking=$true
+RewriteRule vipusers/(ranking) VipUsers.php?ranking=$1
 RewriteRule vipusers/ VipUsers.php
