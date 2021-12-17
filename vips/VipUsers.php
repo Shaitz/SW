@@ -43,7 +43,7 @@ switch ($method)
             }
             else
             {
-                /*$sql = "SELECT Usuarios.Email, Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
+                $sql = "SELECT Usuarios.Email, Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
                 $data = Database::EjecutarConsulta($cnx, $sql);
                 $sql = "SELECT Usuarios.PuntuacionMax FROM Usuarios, vips WHERE Usuarios.Email = vips.Email;";
                 $data2 = Database::EjecutarConsulta($cnx, $sql);
@@ -60,8 +60,7 @@ switch ($method)
                 $usuarios_ordenados = implode(" ", $usuarios_desordenados);
                 $puntuacion_ordenado = implode(" ", $puntuacion_desordenado);
                 
-                echo json_encode(array('Usuarios' => $usuarios_ordenados, 'Puntos' => $puntuacion_ordenado));*/
-                echo "aasdasdasd";
+                echo json_encode(array('Usuarios' => $usuarios_ordenados, 'Puntos' => $puntuacion_ordenado));
                 break;
             }
 		}  
