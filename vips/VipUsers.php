@@ -1,17 +1,17 @@
 <?php
 // Constantes para el acceso a datos...
 //phpinfo();
-/*DEFINE("_HOST_", "localhost");
+DEFINE("_HOST_", "localhost");
 DEFINE("_PORT_", "8080");
 DEFINE("_USERNAME_", "root");
 DEFINE("_DATABASE_", "prueba");
-DEFINE("_PASSWORD_", "");*/
+DEFINE("_PASSWORD_", "");
 
-DEFINE("_HOST_", "localhost");
+/*DEFINE("_HOST_", "localhost");
 DEFINE("_PORT_", "8080");
 DEFINE("_USERNAME_", "G19");
 DEFINE("_DATABASE_", "db_G19");
-DEFINE("_PASSWORD_", "35VHZskBwNxae");
+DEFINE("_PASSWORD_", "35VHZskBwNxae");*/
 
 require_once 'database.php';
 //require_once '../codigosnucleares/php/ClientVerifyEnrollment.php';
@@ -50,17 +50,23 @@ switch ($method)
 
                 $usuarios_desordenados = explode(" ", $data);
                 $puntuacion_desordenado = explode(" ", $data2);
-                
-                array_multisort($puntuacion_desordenado, SORT_DESC, $usuarios_desordenados);
-                if (count($puntuacion_desordenado, COUNT_RECURSIVE) >= 10)
+
+                $intArray = array_map(
+                    function($value) { return (int)$value; },
+                    $puntuacion_desordenado
+                );
+
+                array_multisort($intArray, SORT_DESC, $usuarios_desordenados);
+                if (count($intArray, COUNT_RECURSIVE) >= 10)
                 {
-                    $puntuacion_desordenado = array_slice($puntuacion_desordenado, 0, 10);
+                    $intArray = array_slice($intArray, 0, 10);
                     $usuarios_desordenados = array_slice($usuarios_desordenados,0,10);
                 }
                 $usuarios_ordenados = implode(" ", $usuarios_desordenados);
-                $puntuacion_ordenado = implode(" ", $puntuacion_desordenado);
+                $puntuacion_ordenado = implode("<br>", $intArray);
                 
                 echo json_encode(array('Usuarios' => $usuarios_ordenados, 'Puntos' => $puntuacion_ordenado));
+                
                 break;
             }
 		}  
